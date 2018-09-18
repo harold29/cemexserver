@@ -27,10 +27,10 @@ nconf
     DATA_BACKEND: 'datastore',
 
     // This is the id of your project in the Google Cloud Developers Console.
-    AZURE_DB_HOST: 'cemexbdili.database.windows.net',
-    AZURE_DB_USER: 'cemexadmin',
-    AZURE_DB_PASSWORD: '6IGCp1uMm8fzi9qq',
-    AZURE_DB: 'bdili',
+    AZURE_DB_HOST: '',
+    AZURE_DB_USER: '',
+    AZURE_DB_PASSWORD: '',
+    AZURE_DB: '',
 
     NODE_ENV: 'development',
 
