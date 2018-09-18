@@ -13,6 +13,8 @@ var logger = require('morgan');
 
 var app = express();
 
+app.use('/', require('./routes/usuario'));
+
 if (module === require.main) {
   // Start the server
   const server = app.listen(config.get('PORT'), () => {
