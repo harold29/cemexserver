@@ -28,7 +28,7 @@ nconf
 
     // This is the id of your project in the Google Cloud Developers Console.
     AZURE_DB_HOST: 'cemexbdili.database.windows.net',
-    AZURE_DB_USER: 'cemexadmin',
+    AZURE_DB_USER: 'cemexadmin@cemexbdili',
     AZURE_DB_PASSWORD: '6IGCp1uMm8fzi9qq',
     AZURE_DB: 'bdili',
 

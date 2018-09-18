@@ -8,7 +8,7 @@ function getModel () {
 }
 
 function getUser() {
-  return require('./routes/usuario');
+  return require('../models/usuario');
 }
 
 const router = express.Router();
@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
   res.json({"Error" : false, "Message" : "HOLA MUNDO"});
 });
 
-router.get('/usuario', (req, res, next) => {
+router.get('/usuario/', (req, res, next) => {
   getUser().readUsuario((err, entities) => {
     if (err) {
       // next(err);

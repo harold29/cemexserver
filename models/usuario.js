@@ -3,14 +3,16 @@ var Request = require('tedious').Request;
 var types = require('tedious').TYPES;
 
 // Create connection to database
+const conf = require('../config');
+
 var config =
    {
-     userName: config.get('AZURE_DB_USER'), // update me
-     password: config.get('AZURE_DB_PASSWORD'), // update me
-     server: config.get('AZURE_DB_HOST'), // update me
+     userName: conf.get('AZURE_DB_USER'),
+     password: conf.get('AZURE_DB_PASSWORD'),
+     server: conf.get('AZURE_DB_HOST'),
      options:
         {
-           database: config.get('AZURE_DB') //update me
+           database: conf.get('AZURE_DB')
            , encrypt: true
         }
    }
@@ -50,27 +52,28 @@ function readUsuario () {
          });
       });
       connection.execSql(request);
-    });
-  };
+    };
+  });
 };
-  // request.addParameter
-module.exports = {
-  readUsuario : readUsuario
+
+
+function actualizarTipoEmpleado(tipoEmpleado, cemexId, cb) {
+  var query = 'UPDATE dbo.usuario SET tipo_empleado = @t_empleado WHERE cemex_id = @c_id';
+
+
 }
 
+function cursosUsuario(idUsuario, cb) {
+  var query = 'SELECT dbo.curso.id, dbo.curso.name, dbo.curso.imagen FROM dbo.puntaje INNER JOIN dbo.modulo ON dbo.puntaje.modulo_id = dbo.modulo.id INNER JOIN dbo.curso ON dbo.modulo.curso_id = dbo.curso.id WHERE dbo.puntaje.usuario_id = @user_id GROUP BY dbo.curso.id, dbo.curso.name';
+}
 
+function usuarios(cb) {
+  var query = 'SELECT id, nombre, apellido, n_documento, cargo, vicepresidencia FROM dbo.usuario ORDER BY apellido';
+}
 
- //   query = mysql.format(query,table);
- //
- //   pool.getConnection(function(err, connection) {
- //     connection.query( query,
- //       (err, results) => {
- //         connection.release();
- //         if (err) {
- //           cb(err);
- //           return;
- //         }
- //         cb(null, results);
- //       });
- //    });
- // }
+module.exports = {
+  readUsuario : readUsuario,
+  actualizarTipoEmpleado : actualizarTipoEmpleado,
+  cursosUsuario : cursosUsuario,
+  usuarios : usuarios
+}
