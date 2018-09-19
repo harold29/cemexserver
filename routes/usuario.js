@@ -10,21 +10,6 @@ function getUser() {
 
 router.use(bodyParser.json());
 
-router.get('/', (req, res, next) => {
-  res.json({"Error" : false, "Message" : "HOLA MUNDO"});
-});
-
-router.get('/usuario/', (req, res, next) => {
-  getUser().readUsuario((err, entities) => {
-    if (err) {
-      // next(err);
-      res.json({"Error" : true, "Message" : "Error executing SQL SERVER query", "err" : err.message});
-      return;
-    }
-    res.json({"Error" : false, "Message" : "Usuario cargado", "Usuarios" : entities});
-  });
-});
-
 /**
  * GET /api/ili/usuario/:cemexId/:n_empleado
  *
