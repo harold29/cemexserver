@@ -14,6 +14,7 @@ var logger = require('morgan');
 var app = express();
 
 app.use('/', require('./routes/usuario'));
+app.use('/curso/', require('./routes/curso'));
 
 if (module === require.main) {
   // Start the server

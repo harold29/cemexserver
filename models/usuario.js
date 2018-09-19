@@ -94,47 +94,6 @@ function actualizarTipoEmpleado(tipoEmpleado, cemexId, cb) {
 // [END update]
 
 // [START list]
-function cursosUsuario(idUsuario, cb) {
-  var query = 'SELECT dbo.curso.id, dbo.curso.name, dbo.curso.imagen FROM dbo.puntaje INNER JOIN dbo.modulo ON dbo.puntaje.modulo_id = dbo.modulo.id INNER JOIN dbo.curso ON dbo.modulo.curso_id = dbo.curso.id WHERE dbo.puntaje.usuario_n_documento = @user_id GROUP BY dbo.curso.id, dbo.curso.name, dbo.curso.imagen';
-  var result = [];
-  var connection = new Connection(config);
-
-  connection.on('connect', function(err) {
-    if (err) {
-      console.log(err);
-      cb(err);
-    } else {
-      var request = new Request(query, function(error, rowCount, rows) {
-        if (error) {
-          console.log(error);
-          cb(error);
-        };
-        console.log(rowCount + 'row(s) returned');
-
-        connection.close();
-      });
-
-      request.addParameter('user_id', types.Int, idUsuario);
-
-      request.on('row', function(columns) {
-        var col = {}
-        columns.forEach(function(column) {
-          col[column.metadata.colName] = column.value;
-        })
-        result.push(col);
-      });
-
-      request.on('doneInProc', function() {
-        cb(null, result);
-      });
-
-      connection.execSql(request);
-    };
-  });
-}
-// [END list]
-
-// [START list]
 function usuarios(cb) {
   var query = 'SELECT id, nombre, apellido, n_documento, cargo, vicepresidencia FROM dbo.usuario ORDER BY apellido';
   var result = [];
