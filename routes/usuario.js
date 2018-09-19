@@ -32,12 +32,18 @@ router.get('/usuario/', (req, res, next) => {
  */
 router.get('/usuario/:cemex_id/:n_empleado', (req, res, next) => {
 
+  console.log("PARAMETERS RECEIVED: " + req.params.cemex_id);
+  console.log("PARAMETERS RECEIVED: " + req.params.n_empleado);
   getUser().readUsuario(req.params.cemex_id, req.params.n_empleado, (err, entity) => {
     if (err) {
-      next(err);
+      // next(err);
+      console.log("ERROR IN THE REQUEST");
+      res.json({"Error" : true, "Message" : "Error executing MySQL query"});
       return;
     }
+    console.log("NO ERROR IN THE REQUEST");
     res.json({"Error" : false, "Message" : "Success", "UsersNumber" : entity.length, "Users" : entity});
+    // console.log("RETURNED JSON");
   });
 });
 
@@ -50,7 +56,7 @@ router.put('/usuario/tipo_empleado', (req, res, next) => {
 
   getUser().actualizarTipoEmpleado(req.body.tipo_empleado, req.body.cemex_id , (err, entity) => {
     if (err) {
-      console.err("Error on actualizarTipoEmpleado method: " + err);
+      console.log("Error on actualizarTipoEmpleado method: " + err);
       res.json({"Error" : true, "Message" : "Error with database query"});
       return;
     }
@@ -66,7 +72,7 @@ router.get('/cursosUsuario/:USUARIO_id', (req, res, next) => {
 
   getUser().cursosUsuario(req.params.USUARIO_id, (err, entities) => {
     if (err) {
-      console.err("Error on cursosUsuario method: " + err);
+      console.log("Error on cursosUsuario method: " + err);
       next(err);
       return;
     }
@@ -79,10 +85,10 @@ router.get('/cursosUsuario/:USUARIO_id', (req, res, next) => {
  *
  */
 router.get('/usuarios', (req, res, next) => {
-
+  console.log("REQUEST RECEIVED");
   getUser().usuarios((err, entities) => {
     if (err) {
-      console.err("Error on usuarios method: " + err);
+      console.log("Error on usuarios method: " + err);
       res.json({"Error" : true, "Message" : "Error with database query", "err" : err.message});
       return;
     }
