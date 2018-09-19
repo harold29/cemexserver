@@ -16,6 +16,11 @@ var app = express();
 app.use('/', require('./routes/usuario'));
 app.use('/curso/', require('./routes/curso'));
 app.use('/pregunta/', require('./routes/pregunta'));
+app.use('/modulo/', require('./routes/modulo'));
+app.use('/puntaje/', require('./routes/puntaje'));
+app.use('/aplicacion/', require('./routes/aplicacion'));
+
+
 
 if (module === require.main) {
   // Start the server

@@ -16,13 +16,9 @@ var config = {
     }
 };
 
-// var connection = new Connection(config);
-
-
-// Traer un usuario específico con cemexId y n_empleado
-function readUsuario (cemexId, n_empleado, cb) {
-  var query = "SELECT TOP(1) * FROM dbo.usuario WHERE cemex_id = @c_id AND n_empleado = @n_empl";
-  var usuario = [];
+function cargarModulos(idModulo, cb) {
+  var query = 'SELECT * FROM dbo.modulo WHERE curso_id = @i_mod';
+  var result = [];
   var connection = new Connection(config);
 
   connection.on('connect', function(err) {
@@ -40,78 +36,7 @@ function readUsuario (cemexId, n_empleado, cb) {
         connection.close();
       });
 
-      request.addParameter('c_id', types.VarChar, cemexId);
-      request.addParameter('n_empl', types.VarChar, n_empleado);
-
-      request.on('row', function(columns) {
-        var col = {}
-        columns.forEach(function(column) {
-          col[column.metadata.colName] = column.value;
-        })
-        usuario.push(col);
-      });
-
-      request.on('doneInProc', function() {
-        cb(null, usuario);
-      });
-
-      connection.execSql(request);
-    };
-  });
-}
-
-// [START update Tipo_empleado]
-function actualizarTipoEmpleado(tipoEmpleado, cemexId, cb) {
-  var query = 'UPDATE dbo.usuario SET tipo_empleado = @t_empleado WHERE cemex_id = @c_id';
-  var connection = new Connection(config);
-
-  connection.on('connect', function(err) {
-    if (err) {
-      console.log(err);
-      cb(err);
-    } else {
-      var request = new Request(query, function(error, rowCount, rows) {
-        if (error) {
-          console.log(error);
-          cb(error);
-        };
-        console.log(rowCount + 'row(s) returned');
-
-        connection.close();
-      });
-
-      request.addParameter('t_empleado', types.varChar, tipoEmpleado);
-      request.addParameter('c_id', types.varChar, cemexId);
-
-      request.on('row', function(columns) {
-        cb(null, columns)
-      });
-
-      connection.execSql(request);
-    };
-  });
-}
-// [END update]
-
-// [START list]
-function usuarios(cb) {
-  var query = 'SELECT id, nombre, apellido, n_documento, cargo, vicepresidencia FROM dbo.usuario ORDER BY apellido';
-  var result = [];
-  var connection = new Connection(config);
-
-  connection.on('connect', function(err) {
-    if (err) {
-      console.log(err);
-      cb(err);
-    } else {
-      var request = new Request(query, function(error, rowCount, rows) {
-        if (error) {
-          console.log(error);
-          cb(error);
-        };
-        console.log(rowCount + 'row(s) returned');
-        connection.close();
-      });
+      request.addParameter('i_mod', types.Int, idModulo);
 
       request.on('row', function(columns) {
         var col = {}
@@ -129,10 +54,47 @@ function usuarios(cb) {
     };
   });
 }
-// [END list]
+
+function cargarTips(idModulo, cb) {
+  var query = 'SELECT dbo.tip.id, dbo.tip.contenido, dbo.tip.imagen, dbo.tip.pregunta_id FROM dbo.tip, dbo.pregunta WHERE dbo.pregunta.modulo_id = @id_mod AND dbo.pregunta.id = dbo.tip.pregunta_id';
+  var result = [];
+  var connection = new Connection(config);
+
+  connection.on('connect', function(err) {
+    if (err) {
+      console.log(err);
+      cb(err);
+    } else {
+      var request = new Request(query, function(error, rowCount, rows) {
+        if (error) {
+          console.log(error)
+          cb(error);
+        };
+        console.log(rowCount + 'row(s) returned');
+
+        connection.close();
+      });
+
+      request.addParameter('id_mod', types.Int, idModulo);
+
+      request.on('row', function(columns) {
+        var col = {}
+        columns.forEach(function(column) {
+          col[column.metadata.colName] = column.value;
+        })
+        result.push(col);
+      });
+
+      request.on('doneInProc', function() {
+        cb(null, result);
+      });
+
+      connection.execSql(request);
+    };
+  });
+}
 
 module.exports = {
-  readUsuario : readUsuario,
-  actualizarTipoEmpleado : actualizarTipoEmpleado,
-  usuarios : usuarios
-}
+  cargarModulos : cargarModulos,
+  cargarTips : cargarTips
+};
