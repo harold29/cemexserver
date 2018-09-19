@@ -31,7 +31,7 @@ router.get('/modulos/:CURSO_id', (req, res, next) => {
  */
 router.get('/tips/:MODULO_id', (req, res, next) => {
 
-  getModel().cargarTips(req.params.MODULO_id, (err, entities) => {
+  getModulo().cargarTips(req.params.MODULO_id, (err, entities) => {
     if (err) {
       next(err);
       return;

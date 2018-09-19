@@ -50,22 +50,6 @@ router.put('/usuario/tipo_empleado', (req, res, next) => {
 });
 
 /**
- * GET /api/ili/cursosUsuario/:USUARIO_id
- *
- */
-router.get('/cursosUsuario/:USUARIO_id', (req, res, next) => {
-
-  getUser().cursosUsuario(req.params.USUARIO_id, (err, entities) => {
-    if (err) {
-      console.log("Error on cursosUsuario method: " + err);
-      next(err);
-      return;
-    }
-     res.json({"Error" : false, "Message" : "Cursos del usuario cargados satisfactoriamente", "Cursos" : entities});
-  });
-});
-
-/**
  * GET /api/ili/usuarios
  *
  */

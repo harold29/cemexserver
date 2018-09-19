@@ -17,7 +17,7 @@ var config = {
 };
 
 function actualizarPuntaje(valor, idModulo, idUsuario, cb) {
-  // NOTE: THIS QUERY ARE NOT CORRECTLY TRANSLATED, PLEASE CHECK model-cloudsql.js IN THE CODEBASE
+  // NOTE: THIS QUERY ARE NOT CORRECTLY TRANSLATED, PLEASE CHECK model-cloudsql.js IN THE CODEBASE -- TESTED AND WORKING FINE
   var query = 'INSERT INTO dbo.puntaje (valor, modulo_id, usuario_n_documento) VALUES (@val, @id_mod, @id_us)';
   var result = [];
   var connection = new Connection(config);
@@ -77,10 +77,6 @@ function cargarRankingTotal(cb) {
 
         connection.close();
       });
-
-      request.addParameter('val', types.Float, valor);
-      request.addParameter('id_mod', types.Int, idModulo);
-      request.addParameter('id_us', types.VarChar, idUsuario);
 
       request.on('row', function(columns) {
         var col = {}

@@ -17,7 +17,7 @@ var config = {
 };
 
 function cargarPreguntasBinarias(idModulo, cb) {
-  var query = 'SELECT * FROM dbo.pregunta_binaria. dbo.pregunta WHERE dbo.pregunta.modulo_id = @i_mod AND dbo.pregunta.id = dbo.pregunta_binaria.pregunta_id';
+  var query = 'SELECT * FROM dbo.pregunta_binaria, dbo.pregunta WHERE dbo.pregunta.modulo_id = @i_mod AND dbo.pregunta.id = dbo.pregunta_binaria.pregunta_id';
   var result = [];
   var connection = new Connection(config);
 

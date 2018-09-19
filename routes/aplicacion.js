@@ -10,7 +10,7 @@ router.use(bodyParser.json());
  * GET /api/ili/appVersion
  *
  */
-router.get('/appVersion', (req, res, next) => {
+router.get('/appversion', (req, res, next) => {
     res.json({"version" : "0.0.8"});
 });
 
